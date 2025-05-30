@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-image: url(../../Unduhan/cihuy.png);
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.video-player-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: rgba(255, 255, 255, 0.1); /* Sedikit transparan */
+    backdrop-filter: blur(10px); /* Efek blur pada background */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#mainVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure video fits within bounds */
+    border-radius: 10px;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out; /* Smooth transition for video */
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+    z-index: 1; /* Above video, below title */
+}
+
+.video-wrapper.transitioning #mainVideo {
+    transform: scale(0.9);
+    opacity: 0.5;
+}
+
+.video-wrapper.transitioning .video-overlay {
+    opacity: 1;
+}
+
+.video-title {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 1,8em;
+    font-weight: 100;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    z-index: 2; /* Above overlay */
+}
+
+.video-wrapper:hover .video-title,
+.video-wrapper.show-title .video-title {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.playlist-container {
+     background-color: rgba(58, 98, 231, 0.1);
+    backdrop-filter: blur(10px); /* Efek blur pada background */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.playlist-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0ef3d4; /* Light blue */
+    font-size: 1.6em;
+    border-bottom: 2px solid #2affff;
+    padding-bottom: 10px;
+}
+
+#playlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 500px; /* Scrollable playlist */
+    overflow-y: auto;
+}
+
+#playlist::-webkit-scrollbar {
+    width: 8px;
+}
+
+#playlist::-webkit-scrollbar-track {
+    background: #333;
+    border-radius: 10px;
+}
+
+#playlist::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 10px;
+    border: 2px solid #333;
+}
+
+#playlist li {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #2a2a4a;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#playlist li:hover {
+    background-color: #3b3b5c;
+    transform: translateY(-3px);
+}
+
+#playlist li.active {
+    background-color: #6272a4; /* Dracula purple */
+    border: 2px solid #bd93f9; /* Pinkish purple */
+    font-weight: 600;
+    box-shadow: 0 0 15px rgba(189, 147, 249, 0.5);
+    color: #fff;
+}
+
+#playlist li img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#playlist li span {
+    flex-grow: 1;
+    font-size: 1.1em;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .video-player-container {
+        flex-direction: row;
+        gap: 40px;
+        padding: 40px;
+    }
+    .video-wrapper {
+        flex: 3; /* Video takes more space */
+    }
+    .playlist-container {
+        flex: 1; /* Playlist takes less space */
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 767px) {
+    .video-player-container {
+        padding: 20px;
+    }
+    .playlist-container {
+        width: 100%;
+        max-height: 250px; /* Adjust height for smaller screens */
+        overflow-y: auto;
+    }
+    .video-title {
+        font-size: 1.4em;
+        bottom: 10px;
+        left: 10px;
+    }
+}
